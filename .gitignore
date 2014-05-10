@@ -213,3 +213,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+###############
+## Amoki
+###############
+.v_env/*
+*.sublime-project
+*.sublime-workspace
