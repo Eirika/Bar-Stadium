@@ -32,7 +32,7 @@ class Commande(models.Model):
         if not self.serveur:
             qs = Serveur.objects.extra(
                 select={
-                    'num_commandes': 'SELECT COUNT(*) FROM shop_commande WHERE "shop_serveur"."id" = "shop_commande"."serveur_id"'
+                    'num_commandes': 'SELECT COUNT(*) FROM shop_commande WHERE "shop_serveur"."id" = "shop_commande"."serveur_id" AND NOT finie'
                 }
             )
             self.serveur = qs.order_by('num_commandes', '?').first()
