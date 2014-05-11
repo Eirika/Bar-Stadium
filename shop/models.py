@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
@@ -18,12 +19,24 @@ class Glace(Produit):
 
 
 class Commande(models.Model):
-    prixTTC = models.DecimalField(max_digits=6, decimal_places=2)
-    prixHT = models.DecimalField(max_digits=6, decimal_places=2)
+    prixTTC = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    prixHT = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    serveur = models.ForeignKey('Serveur')
+    serveur = models.ForeignKey('Serveur', null=True, blank=True)
     loge = models.ForeignKey('Loge')
     produit = models.ManyToManyField(Produit, through='LigneCom')
+    finie = models.BooleanField(default=False)
+
+        #Overriding
+    def save(self, *args, **kwargs):
+        if not self.serveur:
+            qs = Serveur.objects.extra(
+                select={
+                    'num_commandes': 'SELECT COUNT(*) FROM shop_commande WHERE "shop_serveur"."id" = "shop_commande"."serveur_id"'
+                }
+            )
+            self.serveur = qs.order_by('num_commandes', '?').first()
+        super(Commande, self).save(*args, **kwargs)
 
 
 class LigneCom(models.Model):
