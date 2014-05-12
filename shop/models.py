@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Count
 
 
 class Produit(models.Model):
@@ -19,8 +20,8 @@ class Glace(Produit):
 
 
 class Commande(models.Model):
-    prixTTC = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    prixHT = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    prixTTC = models.DecimalField(default=0, max_digits=6, decimal_places=2, null=True, blank=True)
+    prixHT = models.DecimalField(default=0, max_digits=6, decimal_places=2, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     serveur = models.ForeignKey('Serveur', null=True, blank=True)
     loge = models.ForeignKey('Loge')
@@ -30,19 +31,21 @@ class Commande(models.Model):
         #Overriding
     def save(self, *args, **kwargs):
         if not self.serveur:
-            qs = Serveur.objects.extra(
-                select={
-                    'num_commandes': 'SELECT COUNT(*) FROM shop_commande WHERE "shop_serveur"."id" = "shop_commande"."serveur_id" AND NOT finie'
-                }
-            )
-            self.serveur = qs.order_by('num_commandes', '?').first()
+            self.serveur = Serveur.objects.exclude(commande__finie=True).annotate(num=Count('commande')).order_by("num").first()
         super(Commande, self).save(*args, **kwargs)
 
 
 class LigneCom(models.Model):
-    quantite = models.IntegerField()
+    quantite = models.IntegerField(default=1)
     produit = models.ForeignKey(Produit)
     commande = models.ForeignKey(Commande)
+
+    #Overriding
+    def save(self, *args, **kwargs):
+        self.commande.prixTTC += self.quantite * self.produit.prix
+        self.commande.save()
+
+        super(LigneCom, self).save(*args, **kwargs)
 
 
 class Serveur(models.Model):

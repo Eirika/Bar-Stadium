@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from shop.models import Produit, Serveur, Loge, Commande
+from shop.models import Produit, Serveur, Loge, Commande, LigneCom
 
 
 class CommandeTestCase(TestCase):
@@ -16,7 +16,6 @@ class CommandeTestCase(TestCase):
         self.l.save()
 
     def test_save_add_serveur(self):
-
         s2 = Serveur(nom='a', prenom="a")
         s2.save()
 
@@ -29,4 +28,26 @@ class CommandeTestCase(TestCase):
         c2 = Commande(loge=self.l)
         c2.save()
 
-        self.assertEqual(c2.serveur, s2)
+        self.assertEqual(c2.serveur.pk, s2.pk)
+
+
+class LigneComTestCase(TestCase):
+
+    def setUp(self):
+        self.p = Produit(nom="pomme", description="Belle pomme rouge", prix=2, urlImg="http://google_une_pomme_pour_moi.com")
+        self.p.save()
+
+        self.s = Serveur(nom='Ornottoobi', prenom="Toobi")
+        self.s.save()
+
+        self.l = Loge(libelle="Loge à Johnny")
+        self.l.save()
+
+    def test_save_add_prix(self):
+        c = Commande(loge=self.l)
+        c.save()
+
+        lc = LigneCom(produit=self.p, commande=c, quantite=2)
+        lc.save()
+
+        self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 4)
