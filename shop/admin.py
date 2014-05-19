@@ -1,5 +1,5 @@
 from django.contrib import admin
-from shop.models import Boisson, Glace, Ingredient
+from shop.models import Boisson, Glace, Ingredient, Serveur
 
 # Register your models here.
 
@@ -17,3 +17,8 @@ admin.site.register(Glace, GlaceAdmin)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('libelle',)
 admin.site.register(Ingredient, IngredientAdmin)
+
+
+class ServeurAdmin(admin.ModelAdmin):
+    list_display = ('nom', 'prenom', 'dateNaissance', 'adresse', 'ville', 'codePostal', 'tauxCommission')
+admin.site.register(Serveur, ServeurAdmin)

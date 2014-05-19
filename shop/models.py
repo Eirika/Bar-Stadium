@@ -58,9 +58,14 @@ class LigneCom(models.Model):
 
 class Serveur(models.Model):
     class Meta:
-        unique_together = (("nom", "prenom"),)
+        unique_together = (("nom", "prenom", "dateNaissance"),)
     nom = models.CharField(max_length=50)
     prenom = models.CharField(max_length=50)
+    dateNaissance = models.DateField()
+    adresse = models.CharField(max_length=200)
+    ville = models.CharField(max_length=200)
+    codePostal = models.CharField(max_length=5)
+    tauxCommission = models.DecimalField(max_digits=5, decimal_places=2)
 
 
 class Loge(models.Model):
