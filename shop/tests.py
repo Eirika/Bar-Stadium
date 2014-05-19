@@ -37,6 +37,9 @@ class LigneComTestCase(TestCase):
         self.p = Produit(nom="pomme", description="Belle pomme rouge", prix=2, urlImg="http://google_une_pomme_pour_moi.com")
         self.p.save()
 
+        self.p2 = Produit(nom="poire", description="Belle poire jaune", prix=4)
+        self.p2.save()
+
         self.s = Serveur(nom='Ornottoobi', prenom="Toobi")
         self.s.save()
 
@@ -47,7 +50,9 @@ class LigneComTestCase(TestCase):
         c = Commande(loge=self.l)
         c.save()
 
-        lc = LigneCom(produit=self.p, commande=c, quantite=2)
+        lc = LigneCom(produit=self.p, commande=c, quantite=4)
+        lc.save()
+        lc = LigneCom(produit=self.p2, commande=c, quantite=2)
         lc.save()
 
-        self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 4)
+        self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 16)

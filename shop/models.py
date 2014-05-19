@@ -3,11 +3,16 @@ from django.db import models
 from django.db.models import Count
 
 
+class Ingredient(models.Model):
+    libelle = models.CharField(max_length=50)
+
+
 class Produit(models.Model):
     nom = models.CharField(max_length=50)
     description = models.TextField()
     prix = models.IntegerField()
     urlImg = models.TextField()
+    ingredients = models.ManyToManyField(Ingredient)
 
 
 class Boisson(Produit):
