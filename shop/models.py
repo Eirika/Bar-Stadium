@@ -6,12 +6,15 @@ from django.db.models import Count
 class Ingredient(models.Model):
     libelle = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return "%s" % self.libelle
+
 
 class Produit(models.Model):
     nom = models.CharField(max_length=50)
     description = models.TextField()
-    prix = models.IntegerField()
-    urlImg = models.TextField()
+    prix = models.DecimalField(max_digits=6, decimal_places=2)
+    urlImg = models.TextField(null=True, blank=True)
     ingredients = models.ManyToManyField(Ingredient)
 
 

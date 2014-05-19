@@ -60,7 +60,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'USER': '', 
+        'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
@@ -87,5 +87,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-  "\bar_stadium\templates"
+    '/bar_stadium/templates'
 )
