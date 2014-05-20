@@ -7,7 +7,7 @@ class Ingredient(models.Model):
     libelle = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return str(self.libelle)
+        return self.libelle
 
 
 class Produit(models.Model):
@@ -16,6 +16,9 @@ class Produit(models.Model):
     prix = models.DecimalField(max_digits=6, decimal_places=2)
     urlImg = models.TextField(null=True, blank=True)
     ingredients = models.ManyToManyField(Ingredient)
+
+    def __unicode__(self):
+        return self.nom
 
 
 class Boisson(Produit):

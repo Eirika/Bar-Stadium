@@ -86,6 +86,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
-    '/bar_stadium/templates'
+    os.path.join(PROJECT_ROOT, 'templates').replace('\\', '/'),
 )

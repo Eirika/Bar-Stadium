@@ -1,0 +1,9 @@
+<h1>Bienvenue sur mon blog !</h1>
+<p>Les crêpes bretonnes ça tue des mouettes en plein vol !</p>
+
+<h1>Produits</h1>
+<ul>
+{% for produit in produits %}
+<li alt={{produit.description}}>{{produit.nom}}</li>
+{% endfor %}
+</ul>
