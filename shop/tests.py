@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from shop.models import Produit, Serveur, Loge, Commande, LigneCom, Ingredient
+from shop.models import Produit, Serveur, Loge, Commande, LigneCom, Ingredient, Boisson
 
 
 class CommandeTestCase(TestCase):
@@ -52,6 +52,12 @@ class LigneComTestCase(TestCase):
         self.i2 = Ingredient(libelle="Eau")
         self.i2.save()
 
+        self.b = Boisson(nom="Pastis", description="Le petit jaune", prix=3.55, urlImg="http://google_une_pomme_pour_moi.com", degre=45)
+        self.b.save()
+
+        self.b2 = Boisson(nom="Jus de pomme", description="Belle pomme rouge", prix=2, urlImg="http://google_une_pomme_pour_moi.com")
+        self.b2.save()
+
     def test_save_add_prix(self):
         c = Commande(loge=self.l)
         c.save()
@@ -70,3 +76,7 @@ class LigneComTestCase(TestCase):
         self.assertEqual(self.p.ingredients.first().libelle, 'Banane')
         # deuxième option, moins jolie
         self.assertEqual(self.p.ingredients.all()[0].libelle, 'Banane')
+
+    def test_save_boisson(self):
+        self.assertEqual(self.b.alcool, True)
+        self.assertEqual(self.b2.alcool, False)

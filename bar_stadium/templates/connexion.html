@@ -1,0 +1,67 @@
+﻿{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+<title>Connexion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="content-language" content="fr" />
+<link href="{% static 'style.css' %}"	title="Défaut" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body> 
+
+<div id="conteneur"><!-- Conteneur Global --> 
+         <div id="header">
+		 <!--***** MENU *****-->
+              <ul id="menu">
+                  <li><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
+                  <li id="ici"><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
+              </ul> 	
+         </div>
+   
+         <div id="contenu">
+		      <!--***** COLONNE DE GAUCHE *****-->		 
+              <div id="left">
+		      <!--***** MENU *****-->
+                   <div class="hautmenu">Catégories</div><div class="fondmenu">
+                        <a href="" title=""><img src="{% static 'facebook.png' %}" alt="" style="margin:0 3px" /></a>
+                        <a href="" title=""><img src="{% static 'twitter.png' %}" alt="" style="margin:0 3px" /></a>
+                        <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>		
+                   </div><div class="basmenu"></div><!-- Fin Menu vertical -->
+              </div>
+			  
+		      <!--***** COLONNE DE DROITE *****-->		
+		      <div id="right">
+			  
+ 		      <!--***** CADRE NEWS *****-->                
+				 <div class="news_haut"></div><div class="news_fond">
+				    <h1>Se connecter</h1>
+						{% if error %}
+							<p><strong>Utilisateur inexistant ou mauvais de mot de passe.</strong></p>
+						{% endif %}
+
+						{% if user.is_authenticated %}
+							<p>Vous êtes connecté, {{ user.username }} !<p>
+							<a href="{% url 'shop.views.deconnexion' %}">Vous déconnecter ?</a>
+						{% else %}
+							<form method="post" action=".">
+							 	   {% csrf_token %}
+							 	   {{ form.as_p }}
+							    <input type="submit"/>
+							</form>
+						{% endif %}
+				 </div><div class="news_bas"></div>
+				 
+				 <!-- Bouton pour remonter en haut de la page --> 
+				 <div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>
+				 
+		      </div>
+ 		      <!--***** PIED *****--> 
+             <div id="pied">
+                   <div class="copyright"><a href="{% url 'shop.views.connexion' %}">Connexion</a></div>
+              </div>
+
+</div><!-- Fin Contenu -->
+</div><!-- Fin Conteneur Global -->
+</body>
+</html>
+

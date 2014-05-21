@@ -5,4 +5,6 @@ urlpatterns = patterns('shop.views',
     url(r'^boutique/$', 'produits'),
     url(r'^boissons/$', 'boissons'),
     url(r'^glaces/$', 'glaces'),
+    url(r'^connexion/$', 'connexion'),
+    url(r'^deconnexion/$', 'deconnexion', name='deconnexion'),
 )

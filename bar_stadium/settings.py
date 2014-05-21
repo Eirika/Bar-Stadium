@@ -52,6 +52,7 @@ ROOT_URLCONF = 'bar_stadium.urls'
 
 WSGI_APPLICATION = 'bar_stadium.wsgi.application'
 
+LOGIN_URL = '/connexion/'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

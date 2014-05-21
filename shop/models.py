@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.db.models import Count
+from django.contrib.auth.models import User
 
 
 class Ingredient(models.Model):
@@ -22,8 +23,14 @@ class Produit(models.Model):
 
 
 class Boisson(Produit):
-    degre = models.IntegerField()
-    alcool = models.BooleanField(default=False)
+    degre = models.IntegerField(default=0)
+    alcool = models.BooleanField(default=False, editable=False)
+
+    #Overriding
+    def save(self, *args, **kwargs):
+        if self.degre > 0:
+            self.alcool = True
+        super(Boisson, self).save(*args, **kwargs)
 
 
 class Glace(Produit):
@@ -72,4 +79,5 @@ class Serveur(models.Model):
 
 
 class Loge(models.Model):
+    user = models.OneToOneField(User)
     libelle = models.CharField(max_length=50)
