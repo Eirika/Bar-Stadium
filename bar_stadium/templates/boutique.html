@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-<title>Boutique</title>
+<title>Tous nos produits</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="content-language" content="fr" />
 <link href="{% static 'style.css' %}"	title="Défaut" rel="stylesheet" type="text/css" media="screen" />
@@ -24,11 +24,8 @@
 		      <!--***** MENU *****-->
                    <div class="hautmenu">Catégories</div><div class="fondmenu">
                         <ul class="menuh">
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li>  
-                            <li><a href="#" title="">Rubrique</a></li> 
+                            <li><a href="{% url 'shop.views.boissons' %}" title="">Les boissons</a></li> 
+                            <li><a href="{% url 'shop.views.glaces' %}" title="">Les glaces</a></li>
                         </ul> 	
                    </div><div class="basmenu"></div>
 
