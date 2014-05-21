@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from shop.models import Produit, Serveur, Loge, Commande, LigneCom
+from shop.models import Produit, Serveur, Loge, Commande, LigneCom, Ingredient
 
 
 class CommandeTestCase(TestCase):
@@ -9,14 +9,14 @@ class CommandeTestCase(TestCase):
         self.p = Produit(nom="pomme", description="Belle pomme rouge", prix=2, urlImg="http://google_une_pomme_pour_moi.com")
         self.p.save()
 
-        self.s = Serveur(nom='Ornottoobi', prenom="Toobi")
+        self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
         self.s.save()
 
         self.l = Loge(libelle="Loge à Johnny")
         self.l.save()
 
     def test_save_add_serveur(self):
-        s2 = Serveur(nom='a', prenom="a")
+        s2 = Serveur(nom='a', prenom="a", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
         s2.save()
 
         # On occupe un serveur
@@ -40,11 +40,17 @@ class LigneComTestCase(TestCase):
         self.p2 = Produit(nom="poire", description="Belle poire jaune", prix=4)
         self.p2.save()
 
-        self.s = Serveur(nom='Ornottoobi', prenom="Toobi")
+        self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
         self.s.save()
 
         self.l = Loge(libelle="Loge à Johnny")
         self.l.save()
+
+        self.i = Ingredient(libelle="Banane")
+        self.i.save()
+
+        self.i2 = Ingredient(libelle="Eau")
+        self.i2.save()
 
     def test_save_add_prix(self):
         c = Commande(loge=self.l)
@@ -56,3 +62,8 @@ class LigneComTestCase(TestCase):
         lc.save()
 
         self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 16)
+
+    def test_save_ingredient(self):
+        self.p.ingredients.add(self.i)
+
+        self.assertEqual(Produit.objects.get(pk=self.p.pk).ingredients.libelle, 'Banane')
