@@ -65,5 +65,6 @@ class LigneComTestCase(TestCase):
 
     def test_save_ingredient(self):
         self.p.ingredients.add(self.i)
+        print Produit.objects.get(pk=self.p.pk).ingredients
 
-        self.assertEqual(Produit.objects.get(pk=self.p.pk).ingredients.libelle, 'Banane')
+        self.assertEqual(self.p.ingredients.all()[0].libelle, 'Banane')
