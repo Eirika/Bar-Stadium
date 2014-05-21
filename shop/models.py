@@ -27,7 +27,7 @@ class Boisson(Produit):
 
 
 class Glace(Produit):
-    parfum = models.CharField(max_length=50)
+    pass
 
 
 class Commande(models.Model):

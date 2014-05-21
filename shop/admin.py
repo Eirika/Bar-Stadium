@@ -10,7 +10,7 @@ admin.site.register(Boisson, BoissonAdmin)
 
 
 class GlaceAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'description', 'prix', 'parfum', 'urlImg')
+    list_display = ('nom', 'description', 'prix', 'urlImg')
 admin.site.register(Glace, GlaceAdmin)
 
 
