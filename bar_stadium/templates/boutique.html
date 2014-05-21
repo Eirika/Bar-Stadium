@@ -56,8 +56,13 @@
 				      			{% endif %}
 				      		</td>
 				      		<td>
-				      			<p><span class="titre" style="font-size:2em;font-weight: bold;">{{produit.nom}}</span><br/>
-								{{produit.description}}</p>
+				      			<p style="margin-bottom:10px;"><span class="titre" style="font-size:2em;font-weight: bold;">{{produit.nom}}</span><br/>
+				      			Ingredients : 
+				      			{% for ingredients in produit.ingredients.all %}
+				      				{{ingredients.libelle}}
+				      			{% endfor %}
+				      			</p>
+								<p>{{produit.description}}</p>
 				      		</td>
 				      	</tr>
 				      	{% endfor %}
