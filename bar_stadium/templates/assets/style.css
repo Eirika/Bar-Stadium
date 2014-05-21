@@ -1,0 +1,187 @@
+/*copyright par kitgraphiquegratuit.org*/  
+body, html {
+     background:#0d0d0d;
+	 margin:0;
+	 padding:0;
+	 font-family:Verdana, Arial, Helvetica, sans-serif;
+	 text-align:center;
+	 color:#FFF;
+	 background-attachment: fixed;
+	 font-size:12px;
+}     
+#conteneur {
+     margin: 0 auto;
+	 width: 942px;
+	 position:relative;
+	 text-align:center;
+}	
+#header {
+     text-align:left;
+	 height:181px; 
+	 background:url(header.png);
+	 margin:0 auto;
+	 width:942px;
+} 	
+#contenu {
+     width: 942px;
+	 padding: 0;
+	 margin:0 auto;
+	 background:url(contenu.png);
+}
+#left {
+     float: left;
+	 width: 168px;
+	 margin:0 0 0 10px;
+	 padding:0;
+}   
+#right {
+     width: 740px;
+	 margin:0 0 0 187px;
+	 padding:0;
+	 text-align:left;
+}   
+#pied {
+     background:#0d0d0d url(pied.png);
+	 height:45px;
+	 width:942px;
+	 margin: 0 auto;
+	 padding: 0;
+	 clear:both;
+}			
+/*Class générique*/
+a  {
+     color: #1db6f6;
+	 text-decoration: none;
+	 margin:0;
+	 font-weight:bold;
+	 outline:none;
+}	
+a:hover {
+     color: #fff;
+}	
+img, p, h1, h2, h3, h4, h5,h6, span {
+     border:0;
+	 margin:0;
+	 padding:0;
+}
+span.titre {
+     color: #1db6f6;
+	 font-weight:bold;
+}	
+span.bleu  {
+     color: #1db6f6;
+	 font-weight:bold;
+}	
+.spacer {
+     margin:3px 0 0 0;
+} 
+.grandspacer  {
+     margin:15px 0 0 0;
+}
+.clear {
+     clear: both;
+	 visibility: hidden; 
+}	
+/*Menu	vertical*/
+.hautmenu  {
+     height:32px;
+	 width:168px;
+	 margin:0; 
+	 background:url(hautmenu.png) no-repeat bottom;
+	 padding:10px 0 0 0;
+	 margin:0;
+	 color:#1db6f6;
+	 text-align:center;
+	 font-weight:bold;
+	 font-size:14px;
+}
+.fondmenu {
+     width:168px;
+	 margin:0; 
+	 background:url(fondmenu.png);
+	 padding:0;
+}
+.basmenu {
+     height:20px;
+	 width:168px;
+	 margin:0; 
+	 background:url(basmenu.png);
+	 padding:0;
+}
+ul.menuh {
+	 list-style:none;
+	 width:168px;
+	 padding:0;
+	 margin:0;
+	 text-align:center;
+}
+ul.menuh li a {
+	 display: block;
+	 height: 14px;
+	 color: #fff;
+	 text-decoration: none;
+}
+ul.menuh li a:hover {
+color: #1db6f6;
+}	
+/*Menu horizontal*/
+ul#menu {
+     position: absolute;
+	 margin:17px 0 0 3% ;
+	 padding:0
+}
+ul#menu li {
+     height: 30px;
+	 float: left;
+	 margin: 0 2px 0 2px;
+	 padding:0 0 0 22px;
+	 background: url(menuleft.png) top left no-repeat;
+	 list-style-type: none; 
+}
+ul#menu li a {
+     display: block;
+	 background: url(menuright.png) right top no-repeat;
+	 padding:1em 18px 0.9em 0;
+	 color: #303030;
+	 text-decoration: none;
+	 margin: 0;
+	 font-weight:bold;outline:none;
+}
+ul#menu li a:hover {
+     padding:1em 18px 0.9em 0;
+	 color: #1db6f6;
+	 text-decoration: none;
+	 margin: 0;
+}  
+ul#menu li#ici a   {
+     color: #1db6f6;
+	 margin: 0;
+	 padding:1em 18px 0.9em 0;
+} 
+/*Pied et copyright*/
+.copyright {
+     padding :20px 0 0 0;
+	 width:393px;
+	 height:30px;
+	 text-align:center;
+	 font-weight:bold;
+	 cursor:pointer;
+	 margin:0 auto;
+}  	
+/*Cadre de news*/
+.news_haut {
+     background:url(news_haut.jpg) no-repeat;
+	 width:740px;
+	 height:38px;
+	 margin:0 auto 0 auto;
+}
+.news_fond {
+     background:url(news_fond.jpg) ;
+	 width:690px;
+	 padding:0 25px 0 25px;
+}
+.news_bas  {
+     background:url(news_bas.jpg) no-repeat;
+	 width:740px;
+	 height:28px;
+}
