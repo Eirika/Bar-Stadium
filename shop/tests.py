@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from shop.models import Produit, Serveur, Loge, Commande, LigneCom, Ingredient, Boisson
+from django.contrib.auth.models import User
 
 
 class CommandeTestCase(TestCase):
@@ -12,7 +13,10 @@ class CommandeTestCase(TestCase):
         self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
         self.s.save()
 
-        self.l = Loge(libelle="Loge à Johnny")
+        self.u = User(username="loge1")
+        self.u.save()
+
+        self.l = Loge(libelle="Loge à Johnny", user=self.u)
         self.l.save()
 
     def test_save_add_serveur(self):
@@ -43,7 +47,10 @@ class LigneComTestCase(TestCase):
         self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
         self.s.save()
 
-        self.l = Loge(libelle="Loge à Johnny")
+        self.u = User(username="loge1")
+        self.u.save()
+
+        self.l = Loge(libelle="Loge à Johnny", user=self.u)
         self.l.save()
 
         self.i = Ingredient(libelle="Banane")
@@ -80,3 +87,9 @@ class LigneComTestCase(TestCase):
     def test_save_boisson(self):
         self.assertEqual(self.b.alcool, True)
         self.assertEqual(self.b2.alcool, False)
+
+    def test_user_loge(self):
+        self.assertEqual(self.u.loge, self.l)
+
+        self.c = Commande(self.u.loge)
+        self.c.save()

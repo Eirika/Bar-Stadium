@@ -56,10 +56,15 @@
 				      			<p style="margin-bottom:10px;"><span class="titre" style="font-size:2em;font-weight: bold;">{{produit.nom}}</span><br/>
 				      			Ingredients : 
 				      			{% for ingredients in produit.ingredients.all %}
-				      				{{ingredients.libelle}}
+				      				{{ingredients.libelle}} ;
 				      			{% endfor %}
 				      			</p>
 								<p>{{produit.description}}</p>
+								<form action="{% url 'shop.views.boissons' %}" method="post">
+									{% csrf_token %}
+									<input type="hidden" value="{{ produit.pk }}" name="theID">
+									<input type="submit" value="Ajouter au panier" />
+								</form>
 				      		</td>
 				      	</tr>
 				      	{% endfor %}

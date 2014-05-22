@@ -1,7 +1,12 @@
 from django.contrib import admin
-from shop.models import Boisson, Glace, Ingredient, Serveur
+from shop.models import Boisson, Glace, Ingredient, Serveur, Loge, Commande
 
 # Register your models here.
+
+
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('libelle',)
+admin.site.register(Ingredient, IngredientAdmin)
 
 
 class BoissonAdmin(admin.ModelAdmin):
@@ -14,11 +19,19 @@ class GlaceAdmin(admin.ModelAdmin):
 admin.site.register(Glace, GlaceAdmin)
 
 
-class IngredientAdmin(admin.ModelAdmin):
+class LogeAdmin(admin.ModelAdmin):
     list_display = ('libelle',)
-admin.site.register(Ingredient, IngredientAdmin)
+admin.site.register(Loge, LogeAdmin)
 
 
 class ServeurAdmin(admin.ModelAdmin):
     list_display = ('nom', 'prenom', 'dateNaissance', 'adresse', 'ville', 'codePostal', 'tauxCommission')
 admin.site.register(Serveur, ServeurAdmin)
+
+
+class CommandeAdmin(admin.ModelAdmin):
+    list_display = ('loge', 'serveur', 'get_produit', 'date', 'prixHT', 'prixTTC', 'finie')
+
+    def get_produit(self, obj):
+        return "\n".join([p.produit for p in obj.produit.all()])
+admin.site.register(Commande, CommandeAdmin)
