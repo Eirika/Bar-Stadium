@@ -15,28 +15,31 @@ def home(request):
 @login_required
 def produits(request):
     produits = Produit.objects.all()
+    ajoutArticle(request)
     return render(request, 'boutique.html', locals())
 
 
 @login_required
 def boissons(request):
     produits = Boisson.objects.all()
-    if request.method == "POST":
-            idProduit = request.POST.get('leProduit', False)
-            commande = Commande(loge=request.user.loge)
-            commande.save()
-
-            ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), commande=commande)
-            ligneCom.save()
-
-            return render(request, "boutique.html", locals())
+    ajoutArticle(request)
     return render(request, 'boutique.html', locals())
 
 
 @login_required
 def glaces(request):
     produits = Glace.objects.all()
+    ajoutArticle(request)
     return render(request, 'boutique.html', locals())
+
+
+def ajoutArticle(request):
+    if request.method == "POST":
+        idProduit = request.POST.get('leProduit', False)
+
+#        commande = request.user.loge.commande_set.exclude(finie=False)
+        ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit))
+        ligneCom.save(loge=request.user.loge)
 
 
 def connexion(request):

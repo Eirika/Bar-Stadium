@@ -63,6 +63,13 @@ class LigneCom(models.Model):
 
     #Overriding
     def save(self, *args, **kwargs):
+        if not self.commande:
+            commande = Commande(loge=**kwargs)
+            commande.save()
+        else:
+            if datetime.now - self.commande.date > 20:
+                self.
+
         self.commande.prixTTC += self.quantite * self.produit.prix
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
         self.commande.save()
@@ -80,6 +87,9 @@ class Serveur(models.Model):
     ville = models.CharField(max_length=200)
     codePostal = models.CharField(max_length=5)
     tauxCommission = models.FloatField()
+
+    def __unicode__(self):
+        return "%s - %s" % (self.nom, self.prenom)
 
 
 class Loge(models.Model):

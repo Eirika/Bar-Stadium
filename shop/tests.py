@@ -91,5 +91,8 @@ class LigneComTestCase(TestCase):
     def test_user_loge(self):
         self.assertEqual(self.u.loge, self.l)
 
+        if len(self.u.loge.commande_set.all()) == 0:
+            print("gg")
+
         self.c = Commande(loge=self.u.loge)
         self.c.save()

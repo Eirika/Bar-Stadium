@@ -60,7 +60,7 @@
 				      			{% endfor %}
 				      			</p>
 								<p>{{produit.description}}</p>
-								<form action="{% url 'shop.views.boissons' %}" method="post">
+								<form action="." method="post">
 									{% csrf_token %}
 									<input type="hidden" name="leProduit" value="{{ produit.pk }}" />
 									<input type="submit" value="Ajouter au panier" />
