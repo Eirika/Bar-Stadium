@@ -2,7 +2,7 @@
 from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 import datetime
 
 
@@ -73,14 +73,14 @@ class LigneCom(models.Model):
             # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
             # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
-            if self.commande.date + datetime.timedelta(minutes=20) < datetime.now():
+            if self.commande.date + datetime.timedelta(minutes=20) < timezone.now():
                 self.commandeExistante.delete()
                 commande = Commande(**kwargs)
                 commande.save()
                 self.commande = commande
             else:
                 self.commande = commandeExistante
-                self.commande.date = datetime.now()
+                self.commande.date = timezone.now()
 
         self.commande.prixTTC += self.quantite * self.produit.prix
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
