@@ -62,7 +62,7 @@
 								<p>{{produit.description}}</p>
 								<form action="{% url 'shop.views.boissons' %}" method="post">
 									{% csrf_token %}
-									<input type="hidden" value="{{ produit.pk }}" name="theID">
+									<input type="hidden" name="leProduit" value="{{ produit.pk }}" />
 									<input type="submit" value="Ajouter au panier" />
 								</form>
 				      		</td>

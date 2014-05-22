@@ -14,7 +14,7 @@ class Ingredient(models.Model):
 class Produit(models.Model):
     nom = models.CharField(max_length=50)
     description = models.TextField()
-    prix = models.DecimalField(max_digits=6, decimal_places=2)
+    prix = models.FloatField()
     urlImg = models.TextField(null=True, blank=True)
     ingredients = models.ManyToManyField(Ingredient)
 
@@ -32,14 +32,17 @@ class Boisson(Produit):
             self.alcool = True
         super(Boisson, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+            return self.nom
+
 
 class Glace(Produit):
     pass
 
 
 class Commande(models.Model):
-    prixTTC = models.DecimalField(default=0, max_digits=6, decimal_places=2, null=True, blank=True)
-    prixHT = models.DecimalField(default=0, max_digits=6, decimal_places=2, null=True, blank=True)
+    prixTTC = models.FloatField(default=0, null=True, blank=True)
+    prixHT = models.FloatField(default=0, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     serveur = models.ForeignKey('Serveur', null=True, blank=True)
     loge = models.ForeignKey('Loge')
@@ -61,6 +64,7 @@ class LigneCom(models.Model):
     #Overriding
     def save(self, *args, **kwargs):
         self.commande.prixTTC += self.quantite * self.produit.prix
+        self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
         self.commande.save()
 
         super(LigneCom, self).save(*args, **kwargs)
@@ -75,9 +79,12 @@ class Serveur(models.Model):
     adresse = models.CharField(max_length=200)
     ville = models.CharField(max_length=200)
     codePostal = models.CharField(max_length=5)
-    tauxCommission = models.DecimalField(max_digits=5, decimal_places=2)
+    tauxCommission = models.FloatField()
 
 
 class Loge(models.Model):
     user = models.OneToOneField(User)
     libelle = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.libelle

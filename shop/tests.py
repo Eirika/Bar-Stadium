@@ -91,5 +91,5 @@ class LigneComTestCase(TestCase):
     def test_user_loge(self):
         self.assertEqual(self.u.loge, self.l)
 
-        self.c = Commande(self.u.loge)
+        self.c = Commande(loge=self.u.loge)
         self.c.save()

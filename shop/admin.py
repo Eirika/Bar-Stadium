@@ -33,5 +33,5 @@ class CommandeAdmin(admin.ModelAdmin):
     list_display = ('loge', 'serveur', 'get_produit', 'date', 'prixHT', 'prixTTC', 'finie')
 
     def get_produit(self, obj):
-        return "\n".join([p.produit for p in obj.produit.all()])
+        return "\n".join([p.nom for p in obj.produit.all()])
 admin.site.register(Commande, CommandeAdmin)

@@ -22,11 +22,11 @@ def produits(request):
 def boissons(request):
     produits = Boisson.objects.all()
     if request.method == "POST":
-            idBoisson = request.POST.get("theId", False)
-            commande = Commande(request.user.loge.pk)
+            idProduit = request.POST.get('leProduit', False)
+            commande = Commande(loge=request.user.loge)
             commande.save()
 
-            ligneCom = LigneCom(commande=commande, produit=Produit.objects.get(pk=idBoisson))
+            ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), commande=commande)
             ligneCom.save()
 
             return render(request, "boutique.html", locals())
