@@ -63,8 +63,10 @@ class LigneCom(models.Model):
 
     #Overriding
     def save(self, *args, **kwargs):
+        # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faur regarder s'il y a une commande active dans cette loge
         if not self.commande:
-            commande = Commande(loge=**kwargs)
+            # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
+            commande = Commande(**kwargs)
             commande.save()
         else:
             if datetime.now - self.commande.date > 20:
