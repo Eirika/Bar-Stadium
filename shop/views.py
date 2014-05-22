@@ -36,8 +36,7 @@ def glaces(request):
 def ajoutArticle(request):
     if request.method == "POST":
         idProduit = request.POST.get('leProduit', False)
-
-#        commande = request.user.loge.commande_set.exclude(finie=False)
+        
         ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit))
         ligneCom.save(loge=request.user.loge)
 

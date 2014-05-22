@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
 
+import datetime
+
 
 class Ingredient(models.Model):
     libelle = models.CharField(max_length=50)
@@ -63,14 +65,20 @@ class LigneCom(models.Model):
 
     #Overriding
     def save(self, *args, **kwargs):
-        # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faur regarder s'il y a une commande active dans cette loge
-        if not self.commande:
-            # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
+        commandeExistante = Commande.objects.exclude(commande__finie=True).filter(**kwargs).first()
+        if not commandeExistante:
             commande = Commande(**kwargs)
             commande.save()
+            # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
+            # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
-            if datetime.now - self.commande.date > 20:
-                self.
+            if self.commandeExistante.date + datetime.timedelta(minutes=20) < datetime.now():
+                self.commandeExistante.delete()
+                commande = Commande(**kwargs)
+                commande.save()
+            else:
+                self.commande = commandeExistante
+                self.commande.date = datetime.now()
 
         self.commande.prixTTC += self.quantite * self.produit.prix
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
