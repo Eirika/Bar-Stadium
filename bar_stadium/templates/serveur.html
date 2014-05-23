@@ -1,0 +1,117 @@
+﻿{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+<title>Gestion des commandes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="content-language" content="fr" />
+<link href="{% static 'style.css' %}"   title="Défaut" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body> 
+
+<div id="conteneur"><!-- Conteneur Global --> 
+         <div id="header">
+         <!--***** MENU *****-->
+              <ul id="menu">
+                    <li><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
+                    <li><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li>
+                    {% if user.groups.first.name == "Serveur" %}
+                        <li id="ici"><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
+                    {% endif %}
+              </ul>     
+         </div>
+   
+         <div id="contenu">
+              <!--***** COLONNE DE GAUCHE *****-->       
+              <div id="left">
+              <!--***** MENU *****-->
+                   <div class="hautmenu">Catégories</div><div class="fondmenu">
+                        <ul class="menuh">
+                            <li><a href="{% url 'shop.views.boissons' %}" title="">Les boissons</a></li> 
+                            <li><a href="{% url 'shop.views.glaces' %}" title="">Les glaces</a></li>
+                        </ul>   
+                   </div><div class="basmenu"></div>
+
+                   <div class="hautmenu">Catégories</div><div class="fondmenu">
+                        <a href="" title=""><img src="{% static 'facebook.png' %}" alt="" style="margin:0 3px" /></a>
+                        <a href="" title=""><img src="{% static 'twitter.png' %}" alt="" style="margin:0 3px" /></a>
+                        <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>        
+                   </div><div class="basmenu"></div><!-- Fin Menu vertical -->
+              </div>
+              
+              <!--***** COLONNE DE DROITE *****-->      
+              <div id="right">
+              
+              <!--***** CADRE NEWS *****-->                
+                 <div class="news_haut"></div><div class="news_fond">
+                      <span class="titre">Les commandes en préparations :</span><br />
+                      <table>
+                        {% for commande in commandes %}
+                        {% if commande.validee == True %}
+                        <tr style="margin-bottom:30px;">
+                            <td style="background-color:Green">
+                                <p>Commande à livrer pour la loge : {{ commande.loge.libelle }}</p>
+                                <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
+                                <p>Produit(s) :<br/>
+                                    <ul>
+                                        {% for produit in commande.produit.all %}
+                                            <li>{{ produit.nom }}</li>
+                                                <ul>
+                                                    {% for ingredients in produit.ingredients.all %}
+                                                        <li>{{ ingredients.libelle }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                        {% endfor %}
+                                    </ul>
+                                </p>
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="laCommande" value="{{ commande.pk }}" />
+                                    <input type="submit" value="Commande servie" />
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% for commande in commandes %}
+                        {% if commande.validee == False %}
+                        <tr style="margin-bottom:30px;">
+                            <td style="background-color:blue;">
+                                <p>Commande en préparation pour la loge : {{ commande.loge.libelle }}</p>
+                                <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
+                                <p>Produit(s) :<br/>
+                                <ul>
+                                    {% for produit in commande.produit.all %}
+                                            <li>{{ produit.nom }}</li>
+                                                <ul>
+                                                    {% for ingredients in produit.ingredients.all %}
+                                                        <li>{{ ingredients.libelle }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                    {% endfor %}
+                                </ul>
+                                </p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                      </table>
+
+                 </div><div class="news_bas"></div>
+                 
+                 <!-- Bouton pour remonter en haut de la page --> 
+                 <div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>
+                 
+              </div>
+              <!--***** PIED *****--> 
+              <div id="pied">
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->
+                   <div class="copyright"><a href=""> Votresite.com</a> | ©Design <a href="http://www.kitgraphiquegratuit.org" onclick="window.open(this.href); return false;" title="kits Graphique">Kits Graphiques</a></div>
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->    
+              </div>
+
+</div><!-- Fin Contenu -->
+</div><!-- Fin Conteneur Global -->
+</body>
+</html>
+

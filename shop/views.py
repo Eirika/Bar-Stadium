@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login
 from shop.forms import ConnexionForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+import datetime
 
 
 def home(request):
@@ -15,6 +17,9 @@ def home(request):
 @login_required
 def produits(request):
     produits = Produit.objects.all()
+
+    if request.user.loge:
+        commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
     ajoutArticle(request)
     return render(request, 'boutique.html', locals())
 
@@ -31,6 +36,17 @@ def glaces(request):
     produits = Glace.objects.all()
     ajoutArticle(request)
     return render(request, 'boutique.html', locals())
+
+
+@login_required
+def gestionService(request):
+    commandes = Commande.objects.exclude(servie=True)
+
+    for commandeExistante in commandes:
+        if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
+            commandeExistante.delete()
+
+    return render(request, 'serveur.html', locals())
 
 
 def ajoutArticle(request):

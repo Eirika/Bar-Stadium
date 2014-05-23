@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from shop.models import Produit, Serveur, Loge, Commande, LigneCom, Ingredient, Boisson
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class CommandeTestCase(TestCase):
@@ -76,6 +76,9 @@ class LigneComTestCase(TestCase):
 
         self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 16)
 
+        for produit in c.produit.all():
+            print(produit.nom)
+
 # Ce test ne sert à rien: les manytomany sont déjà testée dans Django directement. Mais il permet de comprendre l'utilisation des many to many
     def test_save_ingredient(self):
         self.p.ingredients.add(self.i)
@@ -96,3 +99,19 @@ class LigneComTestCase(TestCase):
 
         self.c = Commande(loge=self.u.loge)
         self.c.save()
+
+
+class groupTest(TestCase):
+
+    def test_group(self):
+        u = User(username="tristan")
+        u.save()
+
+        g = Group(name="Serveur")
+        g.save()
+        u.groups.add(g)
+
+        self.assertEqual(u.groups.first().name, "Serveur")
+
+        if not u.loge:
+            print('pas bon')

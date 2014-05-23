@@ -15,6 +15,9 @@
               <ul id="menu">
                   <li><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
                   <li id="ici"><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
+                  {% if user.groups.first.name == "Serveur" %}
+                        <li><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
+                    {% endif %}
               </ul> 	
          </div>
    
@@ -29,11 +32,21 @@
                         </ul> 	
                    </div><div class="basmenu"></div>
 
-                   <div class="hautmenu">Catégories</div><div class="fondmenu">
+                   	<div class="hautmenu">Catégories</div><div class="fondmenu">
                         <a href="" title=""><img src="{% static 'facebook.png' %}" alt="" style="margin:0 3px" /></a>
                         <a href="" title=""><img src="{% static 'twitter.png' %}" alt="" style="margin:0 3px" /></a>
                         <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>		
-                   </div><div class="basmenu"></div><!-- Fin Menu vertical -->
+                   	</div><div class="basmenu"></div><!-- Fin Menu vertical -->
+
+                   	{% if commandeExistante %}
+                   	<div class="hautmenu">Panier</div><div class="fondmenu">
+                		<ul>
+                			{% for produit in commandeExistante.produit.all %}
+                				<li>{{ produit.nom }}</li>
+                			{% endfor %}
+                		</ul>
+                   	</div><div class="basmenu"></div><!-- Fin Menu vertical -->
+                   	{% endif %}
               </div>
 			  
 		      <!--***** COLONNE DE DROITE *****-->		

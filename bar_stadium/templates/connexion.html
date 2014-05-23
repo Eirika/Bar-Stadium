@@ -15,6 +15,9 @@
               <ul id="menu">
                   <li><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
                   <li id="ici"><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
+                  {% if user.groups.first.name == "Serveur" %}
+                        <li><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
+                    {% endif %}
               </ul> 	
          </div>
    

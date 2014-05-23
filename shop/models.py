@@ -55,7 +55,7 @@ class Commande(models.Model):
         #Overriding
     def save(self, *args, **kwargs):
         if not self.serveur:
-            self.serveur = Serveur.objects.exclude(servie=True).annotate(num=Count('commande')).order_by("num").first()
+            self.serveur = Serveur.objects.exclude(commande__servie=True).annotate(num=Count('commande')).order_by("num").first()
         super(Commande, self).save(*args, **kwargs)
 
 # on est d'accord qu'il nous faut une vue pour les serveurs. Sur laquelle ils verront les commandes qu'ils doivent faire.
@@ -66,7 +66,7 @@ class Commande(models.Model):
 # dès qu'on clique dessus, commande.servie=true
 # ca, c'est juste pour le swag.
 
-# option 2 : tu restes en mode "finie", et le serveur se fait niquer le temps de préparation/service
+# --option 2 : tu restes en mode "finie", et le serveur se fait niquer le temps de préparation/service
 # option 3: pareil que la 1, mais tu oublies l'histoire d'afficher en temps réel les commandes en train d'être commandées
 
 # dernière étape: tu t'entraineras à présenter le projet, tu implémentes vraiment beaucoup de petits détails qui tuent et filent des points :D
@@ -92,16 +92,6 @@ class LigneCom(models.Model):
             # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
             # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
-            if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
-<<<<<<< HEAD
-                self.commande.delete()
-=======
-                commandeExistante.delete()
->>>>>>> d61be3b70bcd64d34a5207ad568773dca639e40f
-                commande = Commande(**kwargs)
-                commande.save()
-                self.commande = commande
-            else:
                 self.commande = commandeExistante
                 self.commande.date = timezone.now()
 

@@ -7,4 +7,5 @@ urlpatterns = patterns('shop.views',
     url(r'^glaces/$', 'glaces'),
     url(r'^connexion/$', 'connexion'),
     url(r'^deconnexion/$', 'deconnexion', name='deconnexion'),
+    url(r'^service/$', 'gestionService'),
 )
