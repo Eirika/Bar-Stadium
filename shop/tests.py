@@ -111,4 +111,7 @@ class groupTest(TestCase):
         g.save()
         u.groups.add(g)
 
-        self.assertEqual(u.groups.first().name, "Serveur")
+        self.assertEqual(u.groups.first(), g)
+# compare directement les objets quand tu peux :)
+
+        self.assertRaises(Loge.DoesNotExist, lambda: u.loge)
