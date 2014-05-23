@@ -73,8 +73,8 @@ class LigneCom(models.Model):
             # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
             # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
-            if self.commande.date + datetime.timedelta(minutes=20) < timezone.now():
-                self.commandeExistante.delete()
+            if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
+                self.commande.delete()
                 commande = Commande(**kwargs)
                 commande.save()
                 self.commande = commande
@@ -86,7 +86,7 @@ class LigneCom(models.Model):
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
         self.commande.save()
 
-        super(LigneCom, self).save(*args, **kwargs)
+        super(LigneCom, self).save()
 
 
 class Serveur(models.Model):
