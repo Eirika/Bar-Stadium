@@ -77,8 +77,12 @@ class LigneComTestCase(TestCase):
         self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 16)
 
         for ligneCom in c.lignecom_set.all():
+            if ligneCom.produit.pk == 1:
+                ligneCom.quantite = 2
             print(ligneCom.produit.nom)
             print(ligneCom.quantite)
+            print(ligneCom.produit.pk)
+        print(self.p.pk)
 
 # Ce test ne sert à rien: les manytomany sont déjà testée dans Django directement. Mais il permet de comprendre l'utilisation des many to many
     def test_save_ingredient(self):

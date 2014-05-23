@@ -44,6 +44,10 @@
                 			{% for ligneCom in commandeExistante.lignecom_set.all %}
                 				<li>{{ ligneCom.produit.nom }} (x{{ ligneCom.quantite }})</li>
                 			{% endfor %}
+                			<form action="." method="post">
+									{% csrf_token %}
+									<input type="submit" name="validerCommande" value="Valider la commande" />
+							</form>
                 		</ul>
                    	</div><div class="basmenu"></div><!-- Fin Menu vertical -->
                    	{% endif %}
@@ -77,7 +81,7 @@
 									{% csrf_token %}
 									<input type="hidden" name="leProduit" value="{{ produit.pk }}" />
 									<input type="number" name="quantite" min="1" value="1">
-									<input type="submit" value="Ajouter au panier" />
+									<input type="submit" name="addPanier" value="Ajouter au panier" />
 								</form>
 				      		</td>
 				      	</tr>

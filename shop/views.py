@@ -18,6 +18,21 @@ def home(request):
 @login_required
 def produits(request):
     produits = Produit.objects.all()
+    updatePanier(request)
+    
+    try:
+        if request.user.loge:
+            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+    except ObjectDoesNotExist:
+        pass
+
+    return render(request, 'boutique.html', locals())
+
+
+@login_required
+def boissons(request):
+    produits = Boisson.objects.all()
+    updatePanier(request)
 
     try:
         if request.user.loge:
@@ -25,21 +40,20 @@ def produits(request):
     except ObjectDoesNotExist:
         pass
 
-    ajoutArticle(request)
-    return render(request, 'boutique.html', locals())
-
-
-@login_required
-def boissons(request):
-    produits = Boisson.objects.all()
-    ajoutArticle(request)
     return render(request, 'boutique.html', locals())
 
 
 @login_required
 def glaces(request):
     produits = Glace.objects.all()
-    ajoutArticle(request)
+    updatePanier(request)
+    
+    try:
+        if request.user.loge:
+            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+    except ObjectDoesNotExist:
+        pass
+
     return render(request, 'boutique.html', locals())
 
 
@@ -54,23 +68,33 @@ def gestionService(request):
     return render(request, 'serveur.html', locals())
 
 
-def ajoutArticle(request):
+def updatePanier(request):
     if request.method == "POST":
-        idProduit = request.POST.get('leProduit', False)
-        quantite = int(request.POST.get('quantite', 1))
+        if request.POST.get('addPanier'):
+            idProduit = int(request.POST.get('leProduit', False))
+            quantite = int(request.POST.get('quantite', 1))
 
-        try:
-            if request.user.loge:
+            trouve = False
+            try:
+                if request.user.loge:
+                    commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+                    if commandeExistante:
+                        for ligneCom in commandeExistante.lignecom_set.all():
+                            print(idProduit)
+                            if ligneCom.produit.pk == idProduit:
+                                ligneCom.quantite += quantite
+                                ligneCom.save(loge=request.user.loge)
+                                trouve = True
+                if not trouve:
+                    ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), quantite=quantite)
+                    ligneCom.save(loge=request.user.loge)
+            except ObjectDoesNotExist:
+                pass
+        else:
+            if request.POST.get('validerCommande'):
                 commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
-        except ObjectDoesNotExist:
-            pass
-
-        for ligneCom in commandeExistante.lignecom_set.all:
-            if ligneCom.produit.pk == idProduit:
-                ligneCom.quantite += quantite
-            else:
-                ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), quantite=quantite)
-        ligneCom.save(loge=request.user.loge)
+                commandeExistante.validee = True
+                commandeExistante.save()
 
 
 def connexion(request):

@@ -44,61 +44,63 @@
               
               <!--***** CADRE NEWS *****-->                
                  <div class="news_haut"></div><div class="news_fond">
-                      {% if commande %}
-                      <span class="titre">Les commandes en préparations :</span><br />
-                      <table>
-                        {% for commande in commandes %}
-                        {% if commande.validee == True %}
-                        <tr style="margin-bottom:30px;">
-                            <td style="background-color:Green">
-                                <p>Commande à livrer pour la loge : {{ commande.loge.libelle }}</p>
-                                <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
-                                <p>Produit(s) :<br/>
-                                    <ul>
-                                        {% for produit in commande.produit.all %}
-                                            <li>{{ produit.nom }}</li>
+                      {% if commandes %}
+                          <span class="titre">Les commandes en préparations :</span><br />
+                          <table>
+                                {% for commande in commandes %}
+                                    {% if commande.validee == True %}
+                                    <tr style="margin-bottom:30px;">
+                                        <td style="background-color:Green">
+                                            <p>Commande à livrer pour la loge : {{ commande.loge.libelle }}</p>
+                                            <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
+                                            <p>Produit(s) :<br/>
                                                 <ul>
-                                                    {% for ingredients in produit.ingredients.all %}
-                                                        <li>{{ ingredients.libelle }}</li>
+                                                    {% for ligneCom in commande.lignecom_set.all %}
+                                                        <li>Quantité : {{ ligneCom.quantite }}</li>
+                                                        <li>{{ ligneCom.produit.nom }}</li>
+                                                            <ul>
+                                                                {% for ingredients in produit.ingredients.all %}
+                                                                    <li>{{ ingredients.libelle }}</li>
+                                                                {% endfor %}
+                                                            </ul>
                                                     {% endfor %}
                                                 </ul>
-                                        {% endfor %}
-                                    </ul>
-                                </p>
-                                <form action="." method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="laCommande" value="{{ commande.pk }}" />
-                                    <input type="submit" value="Commande servie" />
-                                </form>
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        {% for commande in commandes %}
-                        {% if commande.validee == False %}
-                        <tr style="margin-bottom:30px;">
-                            <td style="background-color:blue;">
-                                <p>Commande en préparation pour la loge : {{ commande.loge.libelle }}</p>
-                                <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
-                                <p>Produit(s) :<br/>
-                                <ul>
-                                    {% for produit in commande.produit.all %}
-                                            <li>{{ produit.nom }}</li>
-                                                <ul>
-                                                    {% for ingredients in produit.ingredients.all %}
-                                                        <li>{{ ingredients.libelle }}</li>
-                                                    {% endfor %}
-                                                </ul>
-                                    {% endfor %}
-                                </ul>
-                                </p>
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        </table>
+                                            </p>
+                                            <form action="." method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="laCommande" value="{{ commande.pk }}" />
+                                                <input type="submit" value="Commande servie" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for commande in commandes %}
+                                    {% if commande.validee == False %}
+                                    <tr style="margin-bottom:30px;">
+                                        <td style="background-color:blue;">
+                                            <p>Commande en préparation pour la loge : {{ commande.loge.libelle }}</p>
+                                            <p>SERVEUR ATTRIBUE : {{ commande.serveur.nom }} {{ commande.serveur.prenom }}</p>
+                                            <p>Produit(s) :<br/>
+                                            <ul>
+                                                {% for ligneCom in commande.lignecom_set.all %}
+                                                        <li>Quantité : {{ ligneCom.quantite }}</li>
+                                                        <li>{{ ligneCom.produit.nom }}</li>
+                                                            <ul>
+                                                                {% for ingredients in ligneCom.produit.ingredients.all %}
+                                                                    <li>{{ ingredients.libelle }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                {% endfor %}
+                                            </ul>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
                         {% else %}
-                        <span class="titre">Aucune commande en cours..</span><br />
+                            <span class="titre">Aucune commande en cours..</span><br />
                         {% endif %}
                       
 
