@@ -57,8 +57,19 @@ def gestionService(request):
 def ajoutArticle(request):
     if request.method == "POST":
         idProduit = request.POST.get('leProduit', False)
-        
-        ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit))
+        quantite = int(request.POST.get('quantite', 1))
+
+        try:
+            if request.user.loge:
+                commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+        except ObjectDoesNotExist:
+            pass
+
+        for ligneCom in commandeExistante.lignecom_set.all:
+            if ligneCom.produit.pk == idProduit:
+                ligneCom.quantite += quantite
+            else:
+                ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), quantite=quantite)
         ligneCom.save(loge=request.user.loge)
 
 

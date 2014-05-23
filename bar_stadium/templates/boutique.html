@@ -41,8 +41,8 @@
                    	{% if commandeExistante %}
                    	<div class="hautmenu">Panier</div><div class="fondmenu">
                 		<ul class="menuh">
-                			{% for produit in commandeExistante.produit.all %}
-                				<li>{{ produit.nom }}</li>
+                			{% for ligneCom in commandeExistante.lignecom_set.all %}
+                				<li>{{ ligneCom.produit.nom }} (x{{ ligneCom.quantite }})</li>
                 			{% endfor %}
                 		</ul>
                    	</div><div class="basmenu"></div><!-- Fin Menu vertical -->
@@ -76,6 +76,7 @@
 								<form action="." method="post">
 									{% csrf_token %}
 									<input type="hidden" name="leProduit" value="{{ produit.pk }}" />
+									<input type="number" name="quantite" min="1" value="1">
 									<input type="submit" value="Ajouter au panier" />
 								</form>
 				      		</td>
