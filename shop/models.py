@@ -61,7 +61,7 @@ class Commande(models.Model):
 # on est d'accord qu'il nous faut une vue pour les serveurs. Sur laquelle ils verront les commandes qu'ils doivent faire.
 # je propose un truc :
 # Sur cette vue, en auto refresh toutes les x secondes, on voit en rouge les commandes non servies et non validées (permet de suivre en temps réel les commandes)
-# En vert les commandes finies en validées
+# En vert les commandes non servies et validées
 # a coté des commandes en vert s'affiche un bouton "Servie"
 # dès qu'on clique dessus, commande.servie=true
 # ca, c'est juste pour le swag.
