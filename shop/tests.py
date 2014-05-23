@@ -112,6 +112,3 @@ class groupTest(TestCase):
         u.groups.add(g)
 
         self.assertEqual(u.groups.first().name, "Serveur")
-
-        if not u.loge:
-            print('pas bon')

@@ -40,7 +40,7 @@
 
                    	{% if commandeExistante %}
                    	<div class="hautmenu">Panier</div><div class="fondmenu">
-                		<ul>
+                		<ul class="menuh">
                 			{% for produit in commandeExistante.produit.all %}
                 				<li>{{ produit.nom }}</li>
                 			{% endfor %}

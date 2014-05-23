@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 import datetime
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def home(request):
@@ -18,8 +19,12 @@ def home(request):
 def produits(request):
     produits = Produit.objects.all()
 
-    if request.user.loge:
-        commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+    try:
+        if request.user.loge:
+            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+    except ObjectDoesNotExist:
+        pass
+
     ajoutArticle(request)
     return render(request, 'boutique.html', locals())
 

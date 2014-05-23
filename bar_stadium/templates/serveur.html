@@ -44,6 +44,7 @@
               
               <!--***** CADRE NEWS *****-->                
                  <div class="news_haut"></div><div class="news_fond">
+                      {% if commande %}
                       <span class="titre">Les commandes en préparations :</span><br />
                       <table>
                         {% for commande in commandes %}
@@ -95,7 +96,11 @@
                         </tr>
                         {% endif %}
                         {% endfor %}
-                      </table>
+                        </table>
+                        {% else %}
+                        <span class="titre">Aucune commande en cours..</span><br />
+                        {% endif %}
+                      
 
                  </div><div class="news_bas"></div>
                  
