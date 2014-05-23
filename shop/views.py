@@ -22,7 +22,8 @@ def produits(request):
     
     try:
         if request.user.loge:
-            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+            commandeExistante = Commande.objects.exclude(validee=True, servie=True).filter(loge=request.user.loge).first()
+            print(commandeExistante.validee)
     except ObjectDoesNotExist:
         pass
 
@@ -47,7 +48,7 @@ def boissons(request):
 def glaces(request):
     produits = Glace.objects.all()
     updatePanier(request)
-    
+
     try:
         if request.user.loge:
             commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
