@@ -134,17 +134,11 @@ class excludeTest(TestCase):
         self.u2 = User(username="loge2")
         self.u2.save()
 
-        self.u3 = User(username="loge3 ")
-        self.u3.save()
-
         self.l = Loge(libelle="Loge à Johnny", user=self.u)
         self.l.save()
 
         self.l2 = Loge(libelle="La Loge 2", user=self.u2)
         self.l2.save()
-
-        self.l3 = Loge(libelle="La Loge 3", user=self.u3)
-        self.l3.save()
 
         self.c = Commande(loge=self.l, validee=True)
         self.c.save()
@@ -152,21 +146,18 @@ class excludeTest(TestCase):
         self.c2 = Commande(loge=self.l2)
         self.c2.save()
 
-        self.c3 = Commande(loge=self.l3, validee=True)
-        self.c3.save()
-
     def test_exclude_querie(self):
         commande1 = Commande.objects.exclude(validee=True, servie=True).filter(loge=self.l).first()
-        
-        commande2 = Commande.objects.exclude(validee=True, servie=True).filter(loge=self.l2).first()
 
-        commande3 = Commande.objects.exclude(validee=True).filter(loge=self.l3).first()
+        commande2 = Commande.objects.exclude(validee=True).filter(loge=self.l).first()
 
-        self.assertEqual(commande1, None)  # résultat attendu : None car c1.validee = True
+        commande3 = Commande.objects.exclude(validee=True, servie=True).filter(loge=self.l2).first()
+
+        self.assertEqual(commande1, None)  # résultat attendu : None car c.validee = True
                                             # résultat obtenu error car il renvoie c1
 
-        self.assertEqual(commande2, self.c2)  # résutlat attendu : c2 car c2.validee ou finie == false
-                                                # résultat obtenu c2 OK !
+        self.assertEqual(commande2, None)  # résutlat attendu : None car c.valide = True
+                                                # résultat obtenu None OK ! (car il prend bien en compte le exclude)
 
-        self.assertEqual(commande3, None)  # résultat attendu : None car c3.validee = true
-                                            # résultat obtenu None OK ! (car il prend bien en compte le exclude)
+        self.assertEqual(commande3, self.c2)  # résultat attendu : c2 car c2.validee = False
+                                            # résultat obtenu c2 OK !
