@@ -52,7 +52,7 @@ class CommandeTestCase(TestCase):
         lc.save(self.l)
 
         self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 300)
-
+        c = Commande.objects.get(pk=c.pk)
         c.validee = True
         c.servie = True
         c.save()
