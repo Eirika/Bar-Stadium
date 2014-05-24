@@ -79,16 +79,14 @@ class LigneCom(models.Model):
         commandeExistante = Commande.objects.exclude(servie=True).exclude(validee=True).filter(**kwargs).first()
         if not commandeExistante:
             commande = Commande(**kwargs)
+            commande.save()
             self.commande = commande
-            self.commande.save()
-            print "NEW COMMANDE"
             # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
             # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
             if self.commande != commandeExistante:
                 self.commande = commandeExistante
                 self.commande.date = timezone.now()
-                print "OLD COMMANDE"
         self.commande.prixTTC += self.quantite * self.produit.prix
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
         self.commande.save()
