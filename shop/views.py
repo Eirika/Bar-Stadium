@@ -77,7 +77,7 @@ def updatePanier(request):
             trouve = False
             try:
                 if request.user.loge:
-                    commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+                    commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
                     if commandeExistante:
                         for ligneCom in commandeExistante.lignecom_set.all():
                             if ligneCom.produit.pk == idProduit:
@@ -91,7 +91,7 @@ def updatePanier(request):
                 pass
         else:
             if request.POST.get('validerCommande'):
-                commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+                commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
                 commandeExistante.validee = True
                 commandeExistante.save()
 
