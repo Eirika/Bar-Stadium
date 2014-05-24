@@ -67,7 +67,8 @@ def gestionService(request):
 
     commandes = Commande.objects.exclude(servie=True)
 
-    for commandeExistante in commandes:
+    commandeNonValidee = commandes.exclude(validee=True)
+    for commandeExistante in commandeNonValidee:
         if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
             commandeExistante.delete()
     
