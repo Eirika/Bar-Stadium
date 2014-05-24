@@ -59,7 +59,7 @@
                                                         <li>Quantité : {{ ligneCom.quantite }}</li>
                                                         <li>{{ ligneCom.produit.nom }}</li>
                                                             <ul>
-                                                                {% for ingredients in produit.ingredients.all %}
+                                                                {% for ingredients in ligneCom.produit.ingredients.all %}
                                                                     <li>{{ ingredients.libelle }}</li>
                                                                 {% endfor %}
                                                             </ul>
