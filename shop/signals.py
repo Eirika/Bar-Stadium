@@ -7,6 +7,6 @@ from shop.models import Commande, Serveur
 
 
 @receiver(pre_save, sender=Commande)
-def check_bo(sender, instance, **kwargs):
+def set_serveur(sender, instance, **kwargs):
 	if not instance.serveur:
 		instance.serveur = Serveur.objects.exclude(commande__servie=True).annotate(num=Count('commande')).order_by("num").first()
