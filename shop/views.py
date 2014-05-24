@@ -59,8 +59,8 @@ def glaces(request):
 
 @login_required
 def gestionService(request):
-    if request.method == "POST" and request.POST.get('commandeServie'):
-        idCommande = int(request.POST.get('commandeServie'))
+    if request.method == "POST" and request.POST.get('laCommande'):
+        idCommande = int(request.POST.get('laCommande'))
         laCommande = Commande.objects.get(pk=idCommande)
         laCommande.servie = True
         laCommande.save()
