@@ -71,7 +71,7 @@ def gestionService(request):
     for commandeExistante in commandeNonValidee:
         if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
             commandeExistante.delete()
-    
+
     return render(request, 'serveur.html', locals())
 
 
@@ -81,21 +81,17 @@ def updatePanier(request):
             idProduit = int(request.POST.get('leProduit', False))
             quantite = int(request.POST.get('quantite', 1))
 
-            trouve = False
-            try:
-                if request.user.loge:
-                    commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
-                    if commandeExistante:
-                        for ligneCom in commandeExistante.lignecom_set.all():
-                            if ligneCom.produit.pk == idProduit:
-                                ligneCom.quantite += quantite
-                                ligneCom.save(loge=request.user.loge)
-                                trouve = True
-                if not trouve:
-                    ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), quantite=quantite)
-                    ligneCom.save(loge=request.user.loge)
-            except ObjectDoesNotExist:
-                pass
+            produit_existant = False
+            commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
+            if commandeExistante:
+                for ligneCom in commandeExistante.lignecom_set.all():
+                    if ligneCom.produit.pk == idProduit:
+                        ligneCom.quantite += quantite
+                        ligneCom.save(loge=request.user.loge)
+                        produit_existant = True
+            if not produit_existant:
+                ligneCom = LigneCom(produit=Produit.objects.get(pk=idProduit), quantite=quantite)
+                ligneCom.save(loge=request.user.loge)
         else:
             if request.POST.get('validerCommande'):
                 commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
