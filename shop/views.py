@@ -59,12 +59,18 @@ def glaces(request):
 
 @login_required
 def gestionService(request):
+    if request.method == "POST" and request.POST.get('commandeServie'):
+        idCommande = int(request.POST.get('commandeServie'))
+        laCommande = Commande.objects.get(pk=idCommande)
+        laCommande.servie = True
+        laCommande.save()
+
     commandes = Commande.objects.exclude(servie=True)
 
     for commandeExistante in commandes:
         if commandeExistante.date + datetime.timedelta(minutes=20) < timezone.now():
             commandeExistante.delete()
-
+    
     return render(request, 'serveur.html', locals())
 
 
