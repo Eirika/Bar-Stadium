@@ -147,7 +147,7 @@ class excludeTest(TestCase):
         self.c2.save()
 
     def test_exclude_querie(self):
-        commande1 = Commande.objects.exclude(validee=True, servie=True).filter(loge=self.l).first()
+        commande1 = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=self.l).first()
 
         commande2 = Commande.objects.exclude(validee=True).filter(loge=self.l).first()
 

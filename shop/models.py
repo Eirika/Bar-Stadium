@@ -113,6 +113,10 @@ class Serveur(models.Model):
     codePostal = models.CharField(max_length=5)
     tauxCommission = models.FloatField()
 
+    def get_commissions(self):
+        commandes = self.commande_set.all()
+
+
     def __unicode__(self):
         return "%s - %s" % (self.nom, self.prenom)
 

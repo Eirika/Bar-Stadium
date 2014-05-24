@@ -19,11 +19,10 @@ def home(request):
 def produits(request):
     produits = Produit.objects.all()
     updatePanier(request)
-    
+
     try:
         if request.user.loge:
-            commandeExistante = Commande.objects.exclude(validee=True, servie=True).filter(loge=request.user.loge).first()
-            print(commandeExistante.validee)
+            commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
     except ObjectDoesNotExist:
         pass
 
@@ -37,7 +36,7 @@ def boissons(request):
 
     try:
         if request.user.loge:
-            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+            commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
     except ObjectDoesNotExist:
         pass
 
@@ -51,7 +50,7 @@ def glaces(request):
 
     try:
         if request.user.loge:
-            commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
+            commandeExistante = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=request.user.loge).first()
     except ObjectDoesNotExist:
         pass
 
@@ -81,7 +80,6 @@ def updatePanier(request):
                     commandeExistante = Commande.objects.exclude(servie=True, validee=True).filter(loge=request.user.loge).first()
                     if commandeExistante:
                         for ligneCom in commandeExistante.lignecom_set.all():
-                            print(idProduit)
                             if ligneCom.produit.pk == idProduit:
                                 ligneCom.quantite += quantite
                                 ligneCom.save(loge=request.user.loge)
@@ -116,7 +114,7 @@ def connexion(request):
         form = ConnexionForm()
     return render(request, 'connexion.html', locals())
 
-                                                                                            
+
 def deconnexion(request):
     logout(request)
     return render(request, 'index2.html')
