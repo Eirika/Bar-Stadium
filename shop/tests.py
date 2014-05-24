@@ -10,7 +10,7 @@ class CommandeTestCase(TestCase):
         self.p = Produit(nom="pomme", description="Belle pomme rouge", prix=2, urlImg="http://google_une_pomme_pour_moi.com")
         self.p.save()
 
-        self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
+        self.s = Serveur(nom='Ornottoobi', prenom="Toobi", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=10)
         self.s.save()
 
         self.u = User(username="loge1")
@@ -19,8 +19,14 @@ class CommandeTestCase(TestCase):
         self.l = Loge(libelle="Loge à Johnny", user=self.u)
         self.l.save()
 
+        self.p = Boisson(nom="Pastis", description="Le petit jaune", prix=10, urlImg="http://google_une_pomme_pour_moi.com", degre=45)
+        self.p.save()
+
+        self.p2 = Boisson(nom="Jus de pomme", description="Belle pomme rouge", prix=20, urlImg="http://google_une_pomme_pour_moi.com")
+        self.p2.save()
+
     def test_save_add_serveur(self):
-        s2 = Serveur(nom='a', prenom="a", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=12.12)
+        s2 = Serveur(nom='a', prenom="a", dateNaissance="1992-08-26", adresse="700 Rue neuve", ville="Saint paul", codePostal="26750", tauxCommission=10)
         s2.save()
 
         # On occupe un serveur
@@ -32,7 +38,28 @@ class CommandeTestCase(TestCase):
         c2 = Commande(loge=self.l)
         c2.save()
 
-        self.assertEqual(c2.serveur.pk, s2.pk)
+        print Commande.objects.get(pk=c2.pk)
+
+        self.assertEqual(Commande.objects.get(pk=c2.pk).serveur.pk, s2.pk)
+
+    def test_commission_serveur(self):
+        c = Commande(loge=self.l, serveur=self.s)
+        c.save()
+
+        lc = LigneCom(produit=self.p, commande=c, quantite=10)
+        lc.save(self.l)
+        lc = LigneCom(produit=self.p2, commande=c, quantite=10)
+        lc.save(self.l)
+
+        self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 300)
+
+        c.validee = True
+        c.servie = True
+        c.save()
+
+        self.assertEqual(Commande.objects.get(pk=c.pk).prixTTC, 300)
+
+        self.assertEqual(self.s.get_commissions(), 30)
 
 
 class LigneComTestCase(TestCase):

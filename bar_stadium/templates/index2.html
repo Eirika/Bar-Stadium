@@ -5,96 +5,96 @@
 <title>Accueil</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-language" content="fr" />
-<link href="{% static 'style.css' %}"	title="Défaut" rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'style.css' %}"    title="Défaut" rel="stylesheet" type="text/css" media="screen" />
 </head>
-<body> 
+<body>
 
-<div id="conteneur"><!-- Conteneur Global --> 
+<div id="conteneur"><!-- Conteneur Global -->
          <div id="header">
-		 <!--***** MENU *****-->
+         <!--***** MENU *****-->
               <ul id="menu">
                   <li id="ici"><a href="#" title="">Accueil</a></li>
                   <li><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li>
-                 	{% if user.groups.first.name == "Serveur" %}
+                     {% if user.groups.first.name == "Serveur" %}
                         <li><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
                     {% endif %}
-              </ul> 	
+              </ul>
          </div>
-   
+
          <div id="contenu">
-		      <!--***** COLONNE DE GAUCHE *****-->		 
+              <!--***** COLONNE DE GAUCHE *****-->
               <div id="left">
-		      <!--***** MENU *****-->
+              <!--***** MENU *****-->
                    <div class="hautmenu">Catégories</div><div class="fondmenu">
                         <ul class="menuh">
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li>  	
-                            <li><a href="#" title="">Rubrique</a></li> 
-                        </ul> 	
+                            <li><a href="#" title="">Rubrique</a></li>
+                            <li><a href="#" title="">Rubrique</a></li>
+                            <li><a href="#" title="">Rubrique</a></li>
+                            <li><a href="#" title="">Rubrique</a></li>
+                            <li><a href="#" title="">Rubrique</a></li>
+                        </ul>
                    </div><div class="basmenu"></div>
 
                    <div class="hautmenu">Catégories</div><div class="fondmenu">
                         <a href="" title=""><img src="{% static 'facebook.png' %}" alt="" style="margin:0 3px" /></a>
                         <a href="" title=""><img src="{% static 'twitter.png' %}" alt="" style="margin:0 3px" /></a>
-                        <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>		
+                        <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>
                    </div><div class="basmenu"></div><!-- Fin Menu vertical -->
               </div>
-			  
-		      <!--***** COLONNE DE DROITE *****-->		
-		      <div id="right">
-			  
- 		      <!--***** CADRE NEWS *****-->                
-				 <div class="news_haut"></div><div class="news_fond">
-				      <span class="titre">Arcu nec sagittis :</span><br />
-				         Ut interdum, tempor, sapien velit commodo orci, non venenatis massa elit non arcu. 
-						 Aenean sit amet velit ante, vitae mattis orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-						 per inceptos himenaeos. Fusce varius eros non nulla vestibulum sodales. Aenean eget augue at elit vestibulum bibendum. 
-						 Etiam eu ante vitae ipsum gravida mollis. Nulla elementum, nibh at condimentum faucibus, ipsum enim luctus lectus, 
-						 bibendum ultricies nulla risus fringilla eros. 
-						 <br /><br />
-						 Nullam euismod, enim gravida pretium tincidunt, nibh neque feugiat turpis, sit amet vestibulum diam elit quis ante. 
-						 Curabitur cursus massa quis lectus molestie vel vehicula nisl pretium. In diam justo, posuere non commodo non, dapibus sed metus. 
-						 Suspendisse potenti. In hac habitasse platea dictumst. Pellentesque eget volutpat nunc. 
-						 <br /><br />						 
-						 In ultricies sapien vitae orci tempor lacinia blandit velit interdum. Donec dapibus, dui at fermentum lacinia, 
-						 eros nunc vehicula tellus, ut dapibus purus libero aliquet nibh. Integer eu est nisl. 
-				 </div><div class="news_bas"></div>
 
- 		      <!--***** CADRE NEWS *****-->   
-				 <div class="news_haut"></div><div class="news_fond">
-				      <span class="titre">Nullam non enim nunc :</span><br />
-				            Ut luctus justo. Nam ut venenatis risus. Sed eu mauris accumsan urna tincidunt porta. 
-							In elementum dictum porttitor. Aliquam eget elit enim, sit amet lobortis turpis. 
-							Praesent vulputate nisl eu leo porta pretium. Mauris risus turpis, tincidunt eu molestie at, scelerisque ac metus. 
-							Fusce nec congue odio. Nullam sodales erat a leo dignissim at ultricies dui elementum. 
-							Proin enim neque, eleifend ut fermentum vitae, aliquam vel ipsum. 
-						 <br /><br />	
-							Etiam rutrum mollis sapien, non interdum quam mollis quis. Pellentesque eu lacus in magna feugiat aliquet id vel sem. 
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at odio diam. Phasellus lectus sem, euismod id iaculis eget, 
-							pulvinar id magna. Mauris venenatis iaculis tempor. In aliquam porta risus.
-							Vivamus sodales tincidunt elit in lobortis. Mauris ut eros tortor. Aliquam nisl lacus, cursus et dapibus non, 
-							porttitor vitae mauris. Pellentesque a odio sed metus viverra volutpat et vel nibh. Nullam lorem dui, sagittis sed aliquam quis, 
-							pharetra vel leo. Aliquam cursus nunc vel felis dictum dictum. Quisque nec lacus arcu. Nam eros felis, posuere eget venenatis in, 
-							mollis vitae odio. Duis imperdiet lorem sed nulla consequat tristique. Proin euismod blandit velit quis viverra. 
-						 <br /><br />	
-							Quisque at odio nisi. Quisque non pellentesque nulla. Donec fringilla lacinia libero, nec interdum libero ornare in. 
-							Sed ac accumsan nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-							Suspendisse vulputate erat et erat laoreet sed blandit nisl varius. Donec tellus metus, varius in iaculis sed, blandit cursus ante. 
-							Suspendisse lacinia nulla id erat ornare dictum. 
-							Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-				 </div><div class="news_bas"></div>  
-				 
-				 <!-- Bouton pour remonter en haut de la page --> 
-				 <div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>
-				 
-		      </div>
- 		      <!--***** PIED *****--> 
+              <!--***** COLONNE DE DROITE *****-->
+              <div id="right">
+
+               <!--***** CADRE NEWS *****-->
+                 <div class="news_haut"></div><div class="news_fond">
+                      <span class="titre">Arcu nec sagittis :</span><br />
+                         Ut interdum, tempor, sapien velit commodo orci, non venenatis massa elit non arcu.
+                         Aenean sit amet velit ante, vitae mattis orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra,
+                         per inceptos himenaeos. Fusce varius eros non nulla vestibulum sodales. Aenean eget augue at elit vestibulum bibendum.
+                         Etiam eu ante vitae ipsum gravida mollis. Nulla elementum, nibh at condimentum faucibus, ipsum enim luctus lectus,
+                         bibendum ultricies nulla risus fringilla eros.
+                         <br /><br />
+                         Nullam euismod, enim gravida pretium tincidunt, nibh neque feugiat turpis, sit amet vestibulum diam elit quis ante.
+                         Curabitur cursus massa quis lectus molestie vel vehicula nisl pretium. In diam justo, posuere non commodo non, dapibus sed metus.
+                         Suspendisse potenti. In hac habitasse platea dictumst. Pellentesque eget volutpat nunc.
+                         <br /><br />
+                         In ultricies sapien vitae orci tempor lacinia blandit velit interdum. Donec dapibus, dui at fermentum lacinia,
+                         eros nunc vehicula tellus, ut dapibus purus libero aliquet nibh. Integer eu est nisl.
+                 </div><div class="news_bas"></div>
+
+               <!--***** CADRE NEWS *****-->
+                 <div class="news_haut"></div><div class="news_fond">
+                      <span class="titre">Nullam non enim nunc :</span><br />
+                            Ut luctus justo. Nam ut venenatis risus. Sed eu mauris accumsan urna tincidunt porta.
+                            In elementum dictum porttitor. Aliquam eget elit enim, sit amet lobortis turpis.
+                            Praesent vulputate nisl eu leo porta pretium. Mauris risus turpis, tincidunt eu molestie at, scelerisque ac metus.
+                            Fusce nec congue odio. Nullam sodales erat a leo dignissim at ultricies dui elementum.
+                            Proin enim neque, eleifend ut fermentum vitae, aliquam vel ipsum.
+                         <br /><br />
+                            Etiam rutrum mollis sapien, non interdum quam mollis quis. Pellentesque eu lacus in magna feugiat aliquet id vel sem.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at odio diam. Phasellus lectus sem, euismod id iaculis eget,
+                            pulvinar id magna. Mauris venenatis iaculis tempor. In aliquam porta risus.
+                            Vivamus sodales tincidunt elit in lobortis. Mauris ut eros tortor. Aliquam nisl lacus, cursus et dapibus non,
+                            porttitor vitae mauris. Pellentesque a odio sed metus viverra volutpat et vel nibh. Nullam lorem dui, sagittis sed aliquam quis,
+                            pharetra vel leo. Aliquam cursus nunc vel felis dictum dictum. Quisque nec lacus arcu. Nam eros felis, posuere eget venenatis in,
+                            mollis vitae odio. Duis imperdiet lorem sed nulla consequat tristique. Proin euismod blandit velit quis viverra.
+                         <br /><br />
+                            Quisque at odio nisi. Quisque non pellentesque nulla. Donec fringilla lacinia libero, nec interdum libero ornare in.
+                            Sed ac accumsan nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Suspendisse vulputate erat et erat laoreet sed blandit nisl varius. Donec tellus metus, varius in iaculis sed, blandit cursus ante.
+                            Suspendisse lacinia nulla id erat ornare dictum.
+                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                 </div><div class="news_bas"></div>
+
+                 <!-- Bouton pour remonter en haut de la page -->
+                 <div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>
+
+              </div>
+               <!--***** PIED *****-->
               <div id="pied">
                    <!-- mention de copyright Ne pas retirer sans autorisation écrite -->
                    <div class="copyright"><a href="{% url 'shop.views.connexion' %}">Connexion</a></div>
-                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->	
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->
               </div>
 
 </div><!-- Fin Contenu -->

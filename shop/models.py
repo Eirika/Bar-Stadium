@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.db.models import Count
 from django.contrib.auth.models import User
 from django.utils import timezone
-import datetime
 
 
 class Ingredient(models.Model):
@@ -52,12 +50,6 @@ class Commande(models.Model):
     validee = models.BooleanField(default=False)
     servie = models.BooleanField(default=False)
 
-        #Overriding
-    def save(self, *args, **kwargs):
-        if not self.serveur:
-            self.serveur = Serveur.objects.exclude(commande__servie=True).annotate(num=Count('commande')).order_by("num").first()
-        super(Commande, self).save(*args, **kwargs)
-
 # on est d'accord qu'il nous faut une vue pour les serveurs. Sur laquelle ils verront les commandes qu'ils doivent faire.
 # je propose un truc :
 # Sur cette vue, en auto refresh toutes les x secondes, on voit en rouge les commandes non servies et non validées (permet de suivre en temps réel les commandes)
@@ -84,17 +76,15 @@ class LigneCom(models.Model):
 # Il faut tester ca maintenant ! :p Enfin un vrai test :) (voir même faire plusieurs test pour tester cette grosse fonction)
     #Overriding
     def save(self, *args, **kwargs):
-        commandeExistante = Commande.objects.exclude(servie=True).filter(**kwargs).first()
+        commandeExistante = Commande.objects.exclude(servie=True).exclude(validee=True).filter(**kwargs).first()
         if not commandeExistante:
             commande = Commande(**kwargs)
-            commande.save()
             self.commande = commande
             # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
             # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
-                self.commande = commandeExistante
-                self.commande.date = timezone.now()
-
+            self.commande = commandeExistante
+            self.commande.date = timezone.now()
         self.commande.prixTTC += self.quantite * self.produit.prix
         self.commande.prixHT = round(self.commande.prixTTC * 0.90, 2)
         self.commande.save()
@@ -114,8 +104,11 @@ class Serveur(models.Model):
     tauxCommission = models.FloatField()
 
     def get_commissions(self):
-        commandes = self.commande_set.all()
-
+        commissions = 0
+        commandes = self.commande_set.filter(validee=True, servie=True)
+        for commande in commandes:
+            commissions += commande.prixTTC * self.tauxCommission / 100
+        return commissions
 
     def __unicode__(self):
         return "%s - %s" % (self.nom, self.prenom)
@@ -127,3 +120,6 @@ class Loge(models.Model):
 
     def __unicode__(self):
         return self.libelle
+
+
+from shop.signals import *
