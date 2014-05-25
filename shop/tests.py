@@ -38,8 +38,6 @@ class CommandeTestCase(TestCase):
         c2 = Commande(loge=self.l)
         c2.save()
 
-        print Commande.objects.get(pk=c2.pk)
-
         self.assertEqual(Commande.objects.get(pk=c2.pk).serveur.pk, s2.pk)
 
     def test_commission_serveur(self):
@@ -144,7 +142,6 @@ class groupTest(TestCase):
         u.groups.add(g)
 
         self.assertEqual(u.groups.first(), g)
-# compare directement les objets quand tu peux :)
 
         self.assertRaises(Loge.DoesNotExist, lambda: u.loge)
 
@@ -178,10 +175,9 @@ class excludeTest(TestCase):
 
         commande2 = Commande.objects.exclude(validee=True).filter(loge=self.l).first()
 
-        commande3 = Commande.objects.exclude(validee=True, servie=True).filter(loge=self.l2).first()
+        commande3 = Commande.objects.exclude(validee=True).exclude(servie=True).filter(loge=self.l2).first()
 
         self.assertEqual(commande1, None)  # résultat attendu : None car c.validee = True
-                                            # résultat obtenu error car il renvoie c1
 
         self.assertEqual(commande2, None)  # résutlat attendu : None car c.valide = True
                                                 # résultat obtenu None OK ! (car il prend bien en compte le exclude)

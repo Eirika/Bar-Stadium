@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-<title>Tous nos produits</title>
+<title>La boutique</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="content-language" content="fr" />
 <link href="{% static 'style.css' %}"	title="Défaut" rel="stylesheet" type="text/css" media="screen" />
@@ -14,10 +14,11 @@
 		 <!--***** MENU *****-->
               <ul id="menu">
                   <li><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
-                  <li id="ici"><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
                   {% if user.groups.first.name == "Serveur" %}
                         <li><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
-                    {% endif %}
+                  {% elif user.groups.first.name == "Loge" %}
+                  		<li id="ici"><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
+                  {% endif %}
               </ul> 	
          </div>
    
@@ -31,12 +32,6 @@
                             <li><a href="{% url 'shop.views.glaces' %}" title="">Les glaces</a></li>
                         </ul> 	
                    </div><div class="basmenu"></div>
-
-                   	<div class="hautmenu">Catégories</div><div class="fondmenu">
-                        <a href="" title=""><img src="{% static 'facebook.png' %}" alt="" style="margin:0 3px" /></a>
-                        <a href="" title=""><img src="{% static 'twitter.png' %}" alt="" style="margin:0 3px" /></a>
-                        <a href="" title=""><img src="{% static 'rss.png' %}" alt="" style="margin:0 3px" /></a>		
-                   	</div><div class="basmenu"></div><!-- Fin Menu vertical -->
 
                    	{% if commandeExistante %}
                    	<div class="hautmenu">Panier</div><div class="fondmenu">
@@ -54,11 +49,18 @@
               </div>
 			  
 		      <!--***** COLONNE DE DROITE *****-->		
-		      <div id="right">
+		      <div id="rightBoutique">
 			  
  		      <!--***** CADRE NEWS *****-->                
 				 <div class="news_haut"></div><div class="news_fond">
-				      <span class="titre">Nos produits :</span><br />
+				 	{% if location == "boutique" %}
+				    	<span class="titre">Nos produits :</span><br />
+				    {% elif location == "boissons" %}
+				    	<span class="titre">Nos boissons :</span><br />
+				    {% elif location == "glaces" %}
+				    	<span class="titre">Nos glaces :</span><br />
+				    {% endif %}
+
 				      <table>
 				     	{% for produit in produits %}
 				      	<tr style="margin-bottom:30px;">
@@ -66,7 +68,7 @@
 				      			{% if produit.urlImg != "" %}
 				      				<img style="float:left;width:100px;margin-right:30px;" src="{{produit.urlImg}}" alt="Image du produit" />
 				      			{% else %}
-				      				<p>Aucune image à afficher</p>
+				      				<p>Aucune image</p>
 				      			{% endif %}
 				      		</td>
 				      		<td>
@@ -90,15 +92,15 @@
 
 				 </div><div class="news_bas"></div>
 				 
-				 <!-- Bouton pour remonter en haut de la page --> 
-				 <div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>
+				 <!-- Bouton pour remonter en haut de la page -->
+                 <!--<div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>-->
 				 
 		      </div>
  		      <!--***** PIED *****--> 
               <div id="pied">
                    <!-- mention de copyright Ne pas retirer sans autorisation écrite -->
-                   <div class="copyright"><a href=""> Votresite.com</a> | ©Design <a href="http://www.kitgraphiquegratuit.org" onclick="window.open(this.href); return false;" title="kits Graphique">Kits Graphiques</a></div>
-                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->	
+                   <div class="copyright">©Design <a href="http://www.kitgraphiquegratuit.org" onclick="window.open(this.href); return false;" title="kits Graphique">Kits Graphiques</a></div>
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->    
               </div>
 
 </div><!-- Fin Contenu -->

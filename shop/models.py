@@ -50,30 +50,12 @@ class Commande(models.Model):
     validee = models.BooleanField(default=False)
     servie = models.BooleanField(default=False)
 
-# on est d'accord qu'il nous faut une vue pour les serveurs. Sur laquelle ils verront les commandes qu'ils doivent faire.
-# je propose un truc :
-# Sur cette vue, en auto refresh toutes les x secondes, on voit en rouge les commandes non servies et non validées (permet de suivre en temps réel les commandes)
-# En vert les commandes non servies et validées
-# a coté des commandes en vert s'affiche un bouton "Servie"
-# dès qu'on clique dessus, commande.servie=true
-# ca, c'est juste pour le swag.
-
-# --option 2 : tu restes en mode "finie", et le serveur se fait niquer le temps de préparation/service
-# option 3: pareil que la 1, mais tu oublies l'histoire d'afficher en temps réel les commandes en train d'être commandées
-
-# dernière étape: tu t'entraineras à présenter le projet, tu implémentes vraiment beaucoup de petits détails qui tuent et filent des points :D
-
-# fais moi penser à te presenter le fichier settings.py. Tu y as pas touché et s'il modifie un truc ici tu seras dans le caca si tu sais pas de quoi il parle :p
-
-#bisous #coeur #hashtag
-
 
 class LigneCom(models.Model):
     quantite = models.IntegerField(default=1)
     produit = models.ForeignKey(Produit)
     commande = models.ForeignKey(Commande)
 
-# Il faut tester ca maintenant ! :p Enfin un vrai test :) (voir même faire plusieurs test pour tester cette grosse fonction)
     #Overriding
     def save(self, *args, **kwargs):
         commandeExistante = Commande.objects.exclude(servie=True).exclude(validee=True).filter(**kwargs).first()
@@ -81,8 +63,6 @@ class LigneCom(models.Model):
             commande = Commande(**kwargs)
             commande.save()
             self.commande = commande
-            # self.commande est forcément null à la création d'une nouvelle LigneCom. Il faut regarder s'il y a une commande active dans cette loge
-            # Un kwarg est déjà un couple clé=valeur. **kwargs une sorte de liste de kwarg. kwarg veut probablement dire key with argument
         else:
             self.commande = commandeExistante
             self.commande.date = timezone.now()

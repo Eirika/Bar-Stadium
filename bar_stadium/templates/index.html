@@ -1,0 +1,53 @@
+﻿{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+<title>Accueil</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-language" content="fr" />
+<link href="{% static 'style.css' %}"    title="Défaut" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+
+<div id="conteneur"><!-- Conteneur Global -->
+         <div id="header">
+         <!--***** MENU *****-->
+              <ul id="menu">
+                  <li id="ici"><a href="{% url 'shop.views.home' %}" title="">Accueil</a></li>
+                  {% if user.groups.first.name == "Serveur" %}
+                        <li><a href="{% url 'shop.views.gestionService' %}">Gestion Service</a></li>
+                  {% elif user.groups.first.name == "Loge" %}
+                      <li><a href="{% url 'shop.views.produits' %}" title="">Boutique</a></li> 
+                  {% endif %}
+              </ul>
+         </div>
+
+         <div id="contenu">
+
+              <!--***** COLONNE DE DROITE *****-->
+              <div id="right">
+
+               <!--***** CADRE PRESENTATION *****-->
+                 <div class="news_haut"></div><div class="news_fond">
+                      <span class="titre">Bienvenu au Bar-Vip de Stadium-Company</span><br />
+                      <p style="margin-top:20px;">
+                        Stadium Company est fier de vous accueilir sur notre toute nouvelle platforme de commande. Cette interface vous permet de parcourir notre boutique composé de boissons et de glaces et de passer commande à notre bar en ajoutant simplement des produits à votre panier et en validant votre commande !
+                      </p>
+                 </div><div class="news_bas"></div>
+
+                 <!-- Bouton pour remonter en haut de la page -->
+                 <!--<div style="text-align: right;margin:0 17px 0 0"><a href="#header"><img src="{% static 'hautdepage.png' %}" alt=""/></a></div>-->
+
+              </div>
+               <!--***** PIED *****-->
+              <div id="pied">
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->
+                   <div class="copyright"><a href="{% url 'shop.views.connexion' %}">Connexion</a> | ©Design <a href="http://www.kitgraphiquegratuit.org" onclick="window.open(this.href); return false;" title="kits Graphique">Kits Graphiques</a></div>
+                   <!-- mention de copyright Ne pas retirer sans autorisation écrite -->    
+              </div>
+
+</div><!-- Fin Contenu -->
+</div><!-- Fin Conteneur Global -->
+</body>
+</html>
+

@@ -35,11 +35,15 @@ body, html {
 	 padding:0;
 }   
 #right {
+	 padding:0;
+	 text-align:left;
+}
+#rightBoutique{
      width: 740px;
 	 margin:0 0 0 187px;
 	 padding:0;
 	 text-align:left;
-}   
+}
 #pied {
      background:#0d0d0d url(pied.png);
 	 height:45px;
@@ -179,9 +183,11 @@ ul#menu li#ici a   {
      background:url(news_fond.jpg) ;
 	 width:690px;
 	 padding:0 25px 0 25px;
+	 margin:0 auto 0 auto;
 }
 .news_bas  {
      background:url(news_bas.jpg) no-repeat;
 	 width:740px;
 	 height:28px;
+	 margin:0 auto 0 auto;
 }
